@@ -65,7 +65,7 @@ class Census:
 
     def gaussianNB_model(self):
         gnb = GaussianNB()
-        gnb.fit(self.X_train, self.y_train)
+        gnb.fit(self.X_train, self.y_train.values.ravel())
         y_pred = gnb.predict(self.X_test)
         print("Accuracy:", metrics.accuracy_score(self.y_test, y_pred))
 
