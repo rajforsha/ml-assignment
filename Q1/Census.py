@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from sklearn.naive_bayes import GaussianNB
 from sklearn import metrics
 from sklearn import preprocessing
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import confusion_matrix
 
 
 class Census:
@@ -67,7 +69,21 @@ class Census:
         gnb = GaussianNB()
         gnb.fit(self.X_train, self.y_train.values.ravel())
         y_pred = gnb.predict(self.X_test)
-        print("Accuracy:", metrics.accuracy_score(self.y_test, y_pred))
+        self.print_accuracy_for_model_created("gaussianNB_model", metrics.accuracy_score(self.y_test, y_pred))
+        self.print_confusion_matrix(confusion_matrix(self.y_test, y_pred))
+
+    def multinomialNB_model(self):
+        clf = MultinomialNB()
+        clf.fit(self.X_train, self.y_train.values.ravel())
+        y_pred = clf.predict(self.X_test)
+        self.print_accuracy_for_model_created("multinomialNB_model", metrics.accuracy_score(self.y_test, y_pred))
+        self.print_confusion_matrix(confusion_matrix(self.y_test, y_pred))
+
+    def print_accuracy_for_model_created(self, model_name, accuracy):
+        print("Accuracy for the model:"+ model_name + "is", accuracy)
+
+    def print_confusion_matrix(self, matrix):
+        print(matrix)
 
 
 
@@ -80,4 +96,4 @@ if __name__ == '__main__':
     ob.label_encoding()
     ob.split_data_into_training_and_testing_set()
     ob.gaussianNB_model()
-
+    ob.multinomialNB_model()
