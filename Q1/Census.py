@@ -1,8 +1,9 @@
 import pandas as pd
-import numpy as np
 from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
+from sklearn.naive_bayes import GaussianNB
+from sklearn import metrics
+from sklearn import preprocessing
 
 
 class Census:
@@ -10,6 +11,10 @@ class Census:
     def __init__(self):
         self.input_file_path = '/Users/shraj/Documents/BITS/2nd sem/ml/adult.csv'
         self.df = None
+        self.X_train = None
+        self.X_test = None
+        self.y_test = None
+        self.y_train = None
 
     def readCSV(self):
         self.df = pd.read_csv(self.input_file_path)
@@ -45,12 +50,25 @@ class Census:
         y_columns = y_df. columns
         print(x_columns)
         print(y_columns)
+        return x_columns, y_columns
+
+    def label_encoding(self):
+        label_encoder = preprocessing.LabelEncoder()
+        for column in ['workclass', 'education', 'marital.status', 'occupation', 'relationship', 'race', 'sex', 'native.country', 'income']:
+            self.df[column] = label_encoder.fit_transform(self.df[column])
+
+        print(self.df.head())
 
     def split_data_into_training_and_testing_set(self):
-        y = self.df.target
-        X_train, X_test, y_train, y_test = train_test_split(self.df, y, test_size=0.2)
-        print(X_train.shape, y_train.shape)
-        print(X_test.shape, y_test.shape)
+        list_of_x_cols, y_col = self.extract_x_and_y()
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.df[list_of_x_cols], self.df[y_col], test_size=0.2)
+
+    def gaussianNB_model(self):
+        gnb = GaussianNB()
+        gnb.fit(self.X_train, self.y_train)
+        y_pred = gnb.predict(self.X_test)
+        print("Accuracy:", metrics.accuracy_score(self.y_test, y_pred))
+
 
 
 if __name__ == '__main__':
@@ -59,5 +77,7 @@ if __name__ == '__main__':
     ob.clean_data()
     ob.visualize_data_sets()
     ob.extract_x_and_y()
+    ob.label_encoding()
     ob.split_data_into_training_and_testing_set()
+    ob.gaussianNB_model()
 
