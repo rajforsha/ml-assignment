@@ -11,7 +11,7 @@ from sklearn.metrics import confusion_matrix
 class Census:
 
     def __init__(self):
-        self.input_file_path = '/Users/shraj/Documents/BITS/2nd sem/ml/adult.csv'
+        self.input_file_path = './../resource/adult.csv'
         self.df = None
         self.X_train = None
         self.X_test = None
