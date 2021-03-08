@@ -79,6 +79,9 @@ class Census:
         self.print_accuracy_for_model_created("multinomialNB_model", metrics.accuracy_score(self.y_test, y_pred))
         self.print_confusion_matrix(confusion_matrix(self.y_test, y_pred))
 
+    def plot_decision_boundary(self):
+        ""
+
     def print_accuracy_for_model_created(self, model_name, accuracy):
         print("Accuracy for the model:"+ model_name + "is", accuracy)
 
@@ -89,11 +92,24 @@ class Census:
 
 if __name__ == '__main__':
     ob = Census()
+
+    # Import the csv data set
     ob.readCSV()
+
+    # Identify the presence of missing values, fill the missing values with mean for numerical attributes and mode value for categorical attributes.
     ob.clean_data()
+
+    # Visualize the data set.
     ob.visualize_data_sets()
+
+    # Extract X as all columns except the Income column and Y as Income column.
     ob.extract_x_and_y()
+
+    # Model the classifier using GaussianNB and MultinomialNB
     ob.label_encoding()
     ob.split_data_into_training_and_testing_set()
     ob.gaussianNB_model()
     ob.multinomialNB_model()
+
+    # Plot the decision boundary, visualize training and test results
+    ob.plot_decision_boundary()
