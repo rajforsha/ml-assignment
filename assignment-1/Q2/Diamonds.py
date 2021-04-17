@@ -10,7 +10,7 @@ from sklearn.svm import SVR
 class Diamonds:
 
     def __init__(self):
-        self.input_file_path = './../resource/diamonds.csv'
+        self.input_file_path = './../../resource/diamonds.csv'
         self.df = None
         self.X_train = None
         self.X_test = None
